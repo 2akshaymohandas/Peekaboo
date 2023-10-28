@@ -1,0 +1,61 @@
+{%extends 'admin\includes\admin-base.html'%}
+
+{%block content%}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Products Variant Management</h1>
+                        <div class="row">
+                            <div class="col-lg-3 ms-5 mt-3">
+                            <a href="{% url 'add_product_variant' %}" class="btn btn-primary btn-sm">Add Product Variant</a>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 ms-5 mt-4">
+                        <table class="table caption-top">
+                            <!-- <caption>List of categories</caption> -->
+                            <thead>
+                              <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in pro %}
+                              <tr>
+                                <th>{{p.product_name}}</th>
+                                <td>{{p.color}}</td>
+                                <td>{{p.size}}</td>
+                                <td>{{p.stock}}</td>
+                                <td>{{p.price}}</td> 
+
+                                <td>
+                                    
+                                    <!-- <label class="badge rounded-pill bg-success text-dark">Active</label>
+                                    <label class="badge rounded-pill bg-danger text-dark">Blocked</label> -->
+                                    <a href="{% url 'edit_product_variant' p.id %}" class="btn btn-warning " >Edit</a>
+                                    <form action="{% url 'del_product_variant' p.id %}" method="post" class="d-inline">{% csrf_token %}
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                  
+                                    </form>
+
+                                 
+                                   
+                                </td>  
+                              </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                            </div>
+                        </div>
+                       
+                     
+                    </div>
+                </main>
+            </div>
+            {%endblock%}

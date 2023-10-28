@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y bg">
+
+<div class="container">
+	<div class="row">
+	<aside class="col-md-3">
+		<!--   SIDEBAR   -->
+		<ul class="list-group">
+			<a class="list-group-item " href="{%url 'myorders'%}"> My order history </a>
+			<a class="list-group-item " href="#"> Addresses </a>
+			<a class="list-group-item" href="#"> Return and refunds </a>
+			<a class="list-group-item active" href="#">Profile </a>
+			<a class="list-group-item" href="#"> My Selling Items </a>
+			<a class="list-group-item" href="{%url 'myorders'%}"> Orders </a>
+		</ul>
+		<br>
+		<a class="btn btn-light btn-block" href="#"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a> 
+		<!--   SIDEBAR .//END   -->
+	 </aside>
+	<main class="col-md-9">
+		<article class="card">
+
+			<div class="card-body">
+				
+				  <div class="col-md-8">
+					<header class="card-header">
+					  <strong class="d-inline-block mr-3">Edit Address</strong>
+					  
+					</header>
+				  </div>
+				 
+				
+					
+				<p> </p>  
+
+				
+
+<form method="post" class="address-form">
+    {% csrf_token %}
+    <div class="form-group" style="">
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="{{ address.name }}" class="form-control " style="width: 30%; ">
+    </div>
+
+    <div class="form-group">
+        <label for="house_name">House Name:</label>
+        <input type="text" name="house_name" value="{{ address.house_name }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <div class="form-group">
+        <label for="address_line_1">Address line 1:</label>
+        <input type="text" name="address_line_1" value="{{ address.address_line_1 }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" name="city" value="{{ address.city }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" name="state" value="{{ address.state }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" name="country" value="{{ address.country }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" value="{{ address.phone }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <div class="form-group">
+        <label for="pincode">Pincode:</label>
+        <input type="text" name="pincode" value="{{ address.pincode }}" class="form-control" style="width: 30%;">
+    </div>
+
+    <!-- Repeat the above pattern for other address fields -->
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+					
+
+					 
+				</div>
+				
+
+			</div> <!-- row.// -->
+		</div> <!-- card-body .// -->
+		<div class="table-responsive">
+
+		</div> <!-- table-responsive .end// -->
+		</article> <!-- order-group.// --> 
+	  </main>
+  </div> <!-- row.// -->
+</div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

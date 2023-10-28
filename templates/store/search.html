@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+<section class="section-content padding-y">
+    <div class="container">
+
+<header class="border-bottom mb-4 pb-3">
+    <div class="form-inline">
+        <span class="mr-md-auto"><b style="color: black;">{{count}}</b> Items found </span>
+    </div>
+
+</header><!-- sect-heading -->
+<div class="row">
+	
+    {% for product in products %}
+    <div class="col-md-4">
+        <figure class="card card-product-grid">
+            <div class="img-wrap"> 
+                <a href="{% url 'product_details' product.slug %}">   
+                    <img src="{{product.image.url}}">
+                </a>
+            </div> <!-- img-wrap.// -->
+            <figcaption class="info-wrap">
+                <div class="fix-height">
+                    <a href="{% url 'product_details' product.slug %}" class="title" style="color: black;">{{product.product_name}}</a>
+                    <div class="price-wrap mt-2">
+                        <span class="price" style="color: black;">${{product.price}}</span>
+                    </div> <!-- price-wrap.// -->
+                </div>
+            </figcaption>
+        </figure>
+    </div> <!-- col.// -->
+    {% endfor %}
+	 <!-- col.// -->
+</div> <!-- row end.// -->
+</div>
+
+
+
+
+{% endblock %}

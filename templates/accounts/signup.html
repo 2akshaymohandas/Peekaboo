@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{%block content%}
+
+
+<section class="section-content padding-y">
+
+    <!-- ============================ COMPONENT REGISTER   ================================= -->
+        <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+          <article class="card-body">
+            {% include "includes/alerts.html" %}
+            <header class="mb-4"><h4 class="card-title">Sign up</h4></header>
+            <form action="{% url 'signup' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-row ">
+                    <div class="col form-group ">
+                        <label for="id_full_name">Full Name</label>
+                        <input type="text" class="form-control  rounded-0" name="name" id="id_full_name" placeholder="">
+                    </div>
+                </div>
+            
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="id_email">Email Address</label>
+                        <input type="email" class="form-control  rounded-0" name="email" id="id_email" placeholder="">
+                        <small class="form-text text-muted">We won't share your email for benefits.</small>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="id_phone">Phone Number</label>
+                        <input type="text" class="form-control  rounded-0" name="phone" id="id_phone" placeholder="">
+                    </div>
+                </div>
+            
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="id_password1">Create password</label>
+                        <input type="password" class="form-control  rounded-0" name="password1" id="id_password1" placeholder="">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="id_password2">Repeat password</label>
+                        <input type="password" class="form-control  rounded-0" name="password2" id="id_password2" placeholder="">
+                        {% comment %} {{form.confirm_password}} {% endcomment %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-dark rounded-0  btn-block">Register</button>
+                </div>
+            </form>
+            </article><!-- card-body.// -->
+        </div> <!-- card .// -->
+        <p class="text-center mt-4">Have an account? <a href="{%url 'signin'%}">Log In</a></p>
+        <br><br>
+    <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+    
+    
+    </section>
+
+
+{% endblock %}

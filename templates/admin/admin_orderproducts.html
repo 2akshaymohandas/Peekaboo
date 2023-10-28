@@ -1,0 +1,67 @@
+{%extends 'admin\includes\admin-base.html'%}
+{%block content%}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Order Management</h1>
+                        <div class="row mt-5 ms-5">
+                            <h3> Shipping Address :</h3>
+                            <div class="col-md-12">
+                                <!-- <div class="form-group"> -->
+                                  <form id="addressForm">
+                                  <h4>{{add.name}},</h4>
+                                  <h6>{{add.house_name}}, {{add.address_line_1}}, {{add.city}},<br> {{add.state}}, Pincode: {{add.pincode}}, {{add.country}}, Phone number: {{add.phone}}</h6>
+                                  </form>
+                                      
+                                <!-- </div> -->
+                             </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 ms-5 mt-4">
+                <table class="table caption-top">
+                    <!-- <caption>List of categories</caption> -->
+                    <thead>
+                      <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Quantity</th>
+                        {% comment %} <th scope="col">Price</th> {% endcomment %}
+                        <th scope="col">Payment Method</th>
+                        
+
+            
+                
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in myorder %}
+                        {% comment %} {% for p in order.myorders.all %} {% endcomment %}
+                      <tr>
+                        <td><a ><img src="{{MEDIA_URL}}{{order.product.image.url}} " class="img-fluid rounded-start" alt="Image" width="150" height="100"></a></td>   
+                        <td>{{ order.product }}</td>
+                        <td>{{ order.variation.size }}</td>
+                        <td>{{ order.quantity }}</td>
+                        {% comment %} <td>{{order.variation.price}}</td> {% endcomment %}
+                        <td>{{ order.payment.payment_method }}</td>
+                        <td>
+                           
+                        </td>
+                       
+                      </tr>
+                        
+                        
+                        {% endfor %}
+
+                    </tbody>
+                  </table>
+                    </div>
+                </div>
+               
+             
+            </div>
+        </main>
+
+
+        {%endblock%}

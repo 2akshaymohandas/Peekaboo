@@ -1,0 +1,101 @@
+{%extends 'admin\includes\admin-base.html'%}
+
+{%block content%}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h4 class="mt-4">Sales Report of {{product.product_name}} (ID - {{product.id}})</h4>
+                        
+                        <div class="row">
+                            <div class="col-md-10 ms-5 mt-4">
+                        <table class="table caption-top" id="sales_table">
+                            <h3 class="ml-5" style="color: white;">Sales Report of{{product.product_name}} (ID - {{product.id}})</h4>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Number of Products Delivered</th>
+                                        {% comment %} <th scope="col">Number of Orders Delivered</th> {% endcomment %}
+                                        <th scope="col">Stock Remaining</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="delivered_quantity">{{delivered_quantity}}</td>
+                                        {% comment %} <td id="number_delivered_orders">{{number_delivered_orders}}</td> {% endcomment %}
+                                        <td id="stock_remaining">{{total_stock}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Add the following code to add the "Download Excel" button -->
+                            <div class="row ml-5">
+                                <div class="text-center mt-3 col-6">
+                                    <a onclick="exportTableToExcel('sales_table','sales_report_by_product')" id="download_excel" class="btn btn-success">Download Excel</a>
+                                </div>
+                                <div class="text-center mt-3 col-6">
+                                    <a onclick="exportTableToPDF('sales_table','sales_report_by_product')" id="download_pdf" class="btn btn-success">Download Pdf</a>
+                                </div>
+                                </div>
+                                
+                                </div>
+                                </div>
+                            </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+        <script>
+            function exportTableToExcel(tableID, filename = '') {
+                console.log("ok")
+            var tableSelect = document.getElementById(tableID);
+            var sheet = XLSX.utils.table_to_sheet(tableSelect);
+        
+            // Create a new workbook and add the sheet
+            var workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, sheet, 'Sheet1');
+        
+            // Specify the file name
+            filename = filename ? filename + '.xlsx' : 'excel_data.xlsx';
+        
+            // Generate the XLSX file
+            var excelData = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            var blob = new Blob([excelData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        
+            // Download the blob as a file
+            download(blob, filename);
+            }
+        
+            function download(blob, filename) {
+            var url = window.URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            }
+        
+        
+            </script>
+        
+        
+            <!-- convert to pdf script -->
+        
+        <script>
+        
+            function exportTableToPDF(tableID, filename = '') {
+              var tableSelect = document.getElementById(tableID);
+            
+              // Specify the file name
+              filename = filename ? filename : 'table_data';
+            
+              // Generate the PDF file
+              const { jsPDF } = window.jspdf; 
+              var doc = new jsPDF();
+              doc.autoTable({ html: '#' + tableID });
+            
+              // Download the PDF file
+              doc.save(filename + '.pdf');
+            }
+            </script>
+            {% endblock %}

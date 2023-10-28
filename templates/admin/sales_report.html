@@ -1,0 +1,22 @@
+{%extends 'admin\includes\admin-base.html'%}
+
+{%block content%}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Sales Report of Products</h1>
+                        
+                        <div class="row">
+                            <div class="col-md-10 ms-5 mt-4">
+                                <ul class="ml-5 mr-5 alert alert-info">
+                                    {% for product in products %}
+                                    <li class=""><a href="{% url 'sales_report_by_product' product.id %}">{{product.product_name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+                {% endblock %}

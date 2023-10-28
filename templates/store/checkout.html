@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block content%}
+
+
+<section class="section-content padding-y bg">
+    <div class="container">
+    
+    
+    
+    <!-- ============================ COMPONENT 2 ================================= -->
+    <div class="row">
+            <main class="col-md-8">
+    
+    <article class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Review cart</h4>
+        <div class="row">
+            {%for product in cart_item%} 
+            <div class="col-md-6">
+                <figure class="itemside  mb-4">
+                    <div class="aside"><img src="{{product.product.image.url}}" class="border img-sm"></div>
+                    <figcaption class="info">
+                        <p>{{product.product.product_name}} </p>
+                        <span class="text-muted">{{product.quantity}}x = ${{product.product.price}} </span>
+                        <span class="text-muted">Size: {{product.product_variant.size}} </span>
+                    </figcaption>
+                </figure>
+            </div> <!-- col.// -->
+            {%endfor%}
+            
+        </div> <!-- row.// -->
+    </div> <!-- card-body.// -->
+    </article> <!-- card.// -->
+    
+
+    <article class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Delivery info</h4>
+            <form action="">
+                    
+        
+                <div class="row">
+                        
+                        <div class="form-group col-sm-6">
+                                {%for ad in address %}
+                            <div class="form-check form-check-inline">
+                                
+                                <input class="form-check-input align-top" type="radio" name="flexRadioDefault" id="address{{ ad.id }}" value="{{ ad.id }}">
+                                <label class="form-check-label" >
+                                    <h6 class="mb-0">{{ad.name}}</h6>
+                                    <p class="mb-0">{{ad.house_name}}</p>
+                                    <p class="mb-0">{{ad.address_line_1}}</p>
+                                    <p class="mb-0">{{ad.city}}, {{ad.country}}</p>
+                                    <p class="mb-0">{{ad.country}}</p>
+                                    <p class="mb-0">{{ad.pincode}}</p>
+                                    <p class="mb-0">{{ad.phone}}</p>
+                                </label>
+                              </div>
+                              
+                              {% comment %} {%url 'Add_address_user'%} {% endcomment %}
+                              
+                              {%endfor%}
+                              
+                              
+                          
+
+                    
+                            
+                        </div>
+                        
+                        
+                </div> <!-- row.// -->	
+               
+            </form>
+
+            
+        </div> <!-- card-body.// -->
+         <a href="{% url 'Add_address' %}" class="btn btn-dark rounded-0 GoToCart mb-auto" id="GoToCart">Add new </a>
+        </article> <!-- card.// -->
+    
+    
+    
+    
+    
+    
+    
+    
+      
+        </main> <!-- col.// -->
+
+
+
+
+        
+            
+            <aside class="col-md-4">
+                <div class="card">
+            <div class="card-body">
+                <dl class="dlist-align">
+                  <dt>Total price:</dt>
+                  <dd class="text-right">${{sum}}</dd>
+                </dl>
+                <dl class="dlist-align">
+                  <dt>Discount:</dt>
+                  <dd class="text-right"> $00.00</dd>
+                </dl>
+                <dl class="dlist-align">
+                  <dt>Total:</dt>
+                  <dd class="text-right text-dark b"><strong>{{sum}}</strong></dd>
+                </dl>
+                <hr>
+                <p class="text-center mb-3">
+                    {% comment %} <img src="./images/misc/payments.png" height="26"> {% endcomment %}
+                </p>
+                
+                <a href="#" id="place-order-button" class="btn btn-block btn-dark rounded-0" disabled>Place Order</a>
+
+                
+            </div> <!-- card-body.// -->
+            </div> <!-- card.// -->
+            </aside> <!-- col.// -->
+        </div> <!-- row.// -->
+    
+    <!-- ============================ COMPONENT 2 END//  ================================= -->
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+                const radioButtons = document.querySelectorAll('input[name="flexRadioDefault"]');
+                const placeOrderButton = document.getElementById('place-order-button');
+            
+                // Add event listeners to radio buttons to update the "Place Order" button's href attribute
+                radioButtons.forEach((radio) => {
+                    radio.addEventListener('change', () => {
+                        if (radio.checked) {
+                            const selectedAddressId = radio.value;
+                            // Update the href attribute with the selected address ID
+                            placeOrderButton.href = `/payment?addressId=${selectedAddressId}`;
+                            // Enable the "Place Order" button
+                            placeOrderButton.removeAttribute('disabled');
+                        }
+                    });
+                });
+            
+        </script>
+        
+  
+    
+
+    
+    
+    </div> <!-- container .//  -->
+    </section>
+
+
+{% endblock %}

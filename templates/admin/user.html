@@ -1,0 +1,59 @@
+{%extends 'admin\includes\admin-base.html'%}
+
+{%block content%}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">User Management</h1>
+
+                        <div class="row">
+                        <div class="col-md-8 ms-5 mt-3">
+                        <table class="table table-hover mt-4 table-warning ">
+                            <thead>
+                              <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">EMAIL</th>
+                                
+                                <th scope="col">NAME</th>
+                                <th scope="col">STATUS</th>
+                                <!-- <th scope="col">PASSWORD</th> -->
+                                <th scope="col">ACTION</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for stud in stud %}
+                              <tr>
+                                <th scope="row">{{stud.id}}</th>
+                                <td>{{stud.email}} <br>Phone: {{stud.phone_number}}</td>
+                                
+
+                                <td>{{stud.name}}</td>
+                                <td>
+                                    {% if stud.is_active %}
+                                    <label class="badge rounded-pill bg-success text-dark">Active</label>
+                                    {% else %}
+                                    <label class="badge rounded-pill bg-danger text-dark">Blocked</label>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if stud.is_active %}
+                                    <form action="{% url 'block_user' stud.id %}" method="post" class="">{% csrf_token %}
+                                        <input type="submit" class="btn btn-danger" value="Block">
+                                        </form>
+                                    {% else %}
+                                    <form action="{% url 'unblock_user' stud.id %}" method="post" class="">{% csrf_token %}
+                                        <input type="submit" class="btn btn-success" value="Unblock">
+                                        </form>
+                                    {% endif %}
+                                </td>
+                              </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>                     
+                       
+                        </div>
+                    </div>
+                </main>
+                {% endblock %}

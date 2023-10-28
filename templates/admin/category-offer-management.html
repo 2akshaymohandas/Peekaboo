@@ -1,0 +1,50 @@
+{%extends 'admin\includes\admin-base.html'%}
+
+{%block content%}
+
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Category Offer Management</h1>
+                        <div class="row">
+                            <div class="col-lg-3 ms-5 mt-3">
+                            <a href="{% url 'add_offer' %}" class="btn btn-primary btn-sm">Add offer</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-8 ms-5 mt-3">
+                            <table class="table caption-top">
+                                <!-- <caption>List of categories</caption> -->
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Discount</th>
+                                    
+                                    <th scope="col">Start date</th>
+                                    <th scope="col">End date</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for offer in offers %}
+                                  <tr> 
+                                    <th>{{offer.category.category_name}}</th>
+                                    <td>{{offer.discount}}</td>
+                                    <td>{{offer.start_date}}</td>
+                                    <td>{{offer.end_date}}</td>
+                                    <td>
+                                        <a href="}" class="btn btn-warning " >Edit</a>
+                                        <form action="{% url 'del_pro_offer' offer.id %}" method="post" class="d-inline">{% csrf_token %}
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                        </form>
+                                    </td>  
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                        </div>                     
+                       
+                        </div>
+                    </div>
+                </main>
+                {%endblock%}

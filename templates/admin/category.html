@@ -1,0 +1,56 @@
+{%extends 'admin\includes\admin-base.html'%}
+
+{%block content%}
+
+
+
+
+
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Category Management</h1>
+                        <div class="row">
+                            <div class="col-lg-3 ms-5 mt-3">
+                            <a href="{% url 'add_category' %}" class="btn btn-primary btn-sm">Add Category</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 ms-5 mt-4">
+                        <table class="table caption-top">
+                            <!-- <caption>List of categories</caption> -->
+                            <thead>
+                              <tr>
+                                
+                                <th scope="col">Category Name</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in pro %}
+                              <tr>
+                                
+                                <td>{{p.category_name}}</td>
+                                
+                                <td>
+                                    <a href="{% url 'edit_category' p.id %}" class="btn btn-warning " >Edit</a>
+                                    <form action="{% url 'del_category' p.id %}" method="post" class="d-inline">{% csrf_token %}
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                  
+                                    </form>
+
+                                 
+                                   
+                                </td>  
+                              </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </main>
+                
+                {%endblock%}

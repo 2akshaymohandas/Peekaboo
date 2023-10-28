@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="bread"><span><a href="{%url 'home'%}">Home</a></span> / <span>Address Book</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 ms-5 mt-4">
+                                       
+            <div class="col-lg-4">
+                <h2>Your Address</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                      <!-- <div class="form-group"> -->
+                        <form id="addressForm">
+                        {% if address %}
+                        {% for ads in address %}
+                        
+                        <h2>{{ads.name}},</h2>
+                        <h6>{{ads.house_name}}, {{ads.address_line_1}}, {{ads.city}},<br> {{ads.state}}, Pincode: {{ads.pincode}}, {{ads.country}}, Phone number: {{ads.phone}}</h6>
+                        <a href="{% url 'edit_addresss_user' ads.id %}" class="mb-5 "><i style="font-size:24px" class="fa">&#xf044;</i>
+                        </a>
+                        <a href="{% url 'del_address_user' ads.id %}"><i class="material-icons">&#xe872;</i></a>
+                        <!-- <a href="" class="btn btn-success">Select</a> -->
+                        {% endfor %}
+
+                        {% else %}
+                        <h2>Your Address Is Empty.</h2>
+                        {% endif %}
+                        </form>
+                            
+                      <!-- </div> -->
+                   </div>
+                        <div class="col-md-12">
+                            <a href="{% url 'Add_address_user' %}" class="btn btn-primary btn-sm mt-5">Add Address</a>
+                        </div>
+               </div>
+            </div>
+        </div>
+
+        {% endblock %}

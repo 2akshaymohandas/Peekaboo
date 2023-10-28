@@ -1,0 +1,58 @@
+{% extends 'admin\includes\admin-base.html' %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/cropperjs"></script>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">ADD Product</h1>
+            <div class="row">
+                <div class="col-md-10 ms-5 mt-5">
+
+                </div>
+            </div>
+
+            <div class="container mt-4">
+                <h1>Add Product</h1>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ product_form.as_p }}
+                    {{ image_form.management_form }}
+                    <div id="image-preview-container" style="width: 300px; height: 300px; overflow: hidden; position: relative;">
+                        <img id="image-preview" src="#" alt="Image Preview" style="display: block; max-width: 100%; max-height: 100%;"/>
+                    </div>
+                    {% for form in image_form %}
+                        <div>
+                            {{ form.as_p }}
+                        </div>
+                    {% endfor %}
+                    <input type="submit" class="btn btn-primary" value="Submit" style="margin-top: 20px;">
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#id_image').change(function(event) {
+            var tmppath = URL.createObjectURL(event.target.files[0]);
+            $("#image-preview").fadeIn("fast").attr('src', tmppath);
+            var image = document.getElementById('image-preview');
+            var cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                viewMode: 1,
+                dragMode: 'crop',
+                autoCropArea: 0.5,
+                restore: false,
+                guides: true,
+                center: true,
+                highlight: true,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
+                toggleDragModeOnDblclick: false
+            });
+        });
+    });
+</script>
+{% endblock %}

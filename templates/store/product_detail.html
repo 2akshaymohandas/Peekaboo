@@ -1,0 +1,567 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  
+    #content-wrapper{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .column{
+      width: 100%%;
+      padding: 10px;
+  
+  }
+  
+  #featured{
+      max-width: 500px;
+      max-height: 600px;
+  
+      cursor: pointer;
+      
+  
+  }
+  
+  .thumbnail{
+      object-fit: cover;
+      max-width: 180px;
+      max-height: 100px;
+      cursor: pointer;
+      opacity: 0.5;
+      margin: 5px;
+   
+  
+  }
+  
+  .thumbnail:hover{
+      opacity:1;
+  }
+  
+  .active{
+      opacity: 1;
+  }
+  
+  #slide-wrapper{
+      margin-top: 30px;
+      max-width: 500px;
+      display: flex;
+      min-height: 100px;
+      align-items: center;
+      margin-left: auto;
+      margin-right: auto;
+      justify-content: space-around;
+     
+  }
+  
+  #slider{
+      width: 440px;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      border: solid 1px #e8e8e8;
+      box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+  
+  }
+  
+  #slider::-webkit-scrollbar {
+          width: 8px;
+  
+  }
+  
+  #slider::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  
+  }
+   
+  #slider::-webkit-scrollbar-thumb {
+    background-color: #dede2e;
+    outline: 1px solid slategrey;
+     border-radius: 100px;
+  
+  }
+  
+  #slider::-webkit-scrollbar-thumb:hover{
+      background-color: #18b5ce;
+  }
+  
+  .arrow{
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      transition: .3s;
+      
+  }
+  
+  .arrow:hover{
+      opacity: .5;
+      width: 35px;
+      height: 35px;
+  }
+  
+  #img-container{
+      z-index: 1;
+      max-width: 600px;
+      position: relative;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      border: solid 1px #e8e8e8;
+      box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+  }
+  
+  #lens{
+      z-index: 2;
+      position: absolute;
+  
+      height: 400px;
+      width: 400px;
+      border:2px solid black;
+      background-repeat: no-repeat;
+      cursor: none;
+  
+  }
+  .review-section{
+      color: #fff;
+      text-transform: uppercase;
+      height: 100px;
+      
+      max-width: 250px;
+      width: 100%;
+      background-color: #a8a4a0;
+      font-size: 24px;
+      font-family: 'Josefin Sans';
+      padding: 35px 10px;
+  }
+    
+
+  
+  
+  
+  </style>
+  
+    
+
+<section class="section-content padding-y bg">
+  <div class="container">
+
+<!-- ============================ COMPONENT 1 ================================= -->
+  <div class="card " href="">
+    <div class="row no-gutters">
+    
+<div class="col-lg-6 column">
+                  <div id="img-container">
+                    <div style="border:none; display:block; position: absolute; z-index:3;" id="lens"></div>
+                    <img id="featured" src="{{pro.image.url}}">
+                  </div>
+                  <div id="slide-wrapper" >
+                    <img id="slideLeft" style="margin-right: 10px;" class="arrow" src="{% static 'arrow-images/arrow-left.png' %}">
+              
+                    <div id="slider">
+                                <img class="thumbnail active" src="{{product.product_image.url}}">
+                                {% for image in image %}
+                      <img class="thumbnail"  src="{{image.image.url}}">
+                                {% endfor %}
+                     </div>
+              
+                    <img id="slideRight" style="margin-left: 10px;" class="arrow" src="{% static 'arrow-images/arrow-right.png' %}">
+                  </div>
+  </div>
+  
+
+
+
+
+      <main class="col-md-6 border-left ">
+  <article class="content-body ">
+  
+  <h2 class="title">{{ pro.product_name }}</h2>
+  
+
+  {% if offer %}
+
+  <div class="mb-3 "> 
+    <del> <var class="price h5 ">Price: ${{pro.price}}</var> </del>
+  </div> 
+
+  <div class="mb-3"> 
+    <var class="Price h4">Offer price: ${{offerprice}}</var> 
+  </div> 
+
+  {% else %}
+  <div class="mb-3"> 
+    <var class="price h4">Price: ${{pro.price}}</var> 
+  </div> 
+
+
+  {% endif %}
+  
+  <p>{{pro.discription}}</p>
+  
+  <style>
+    .center {
+        text-align: center;
+    }
+</style>
+  
+  <hr>
+    <div class="row">
+      {% comment %} <div class="item-option-select ">
+        <h6>Choose Color</h6>
+        <div class="btn-group btn-group-sm btn-group-toggle " data-toggle="buttons">
+          <label class="btn btn-light rounded-0">
+            <input type="radio" name="radio_color"> White
+          </label>
+    
+          <label class="btn btn-light rounded-0">
+            <input type="radio" name="radio_color"> Black
+          </label>
+        </div> 
+      </div> {% endcomment %}
+    </div> <!-- row.// -->
+    <div class="row">
+      <div class="item-option-select">
+        <h6>Select Size</h6>
+        <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+          {% for pr in prodvar %}
+          {% if pr.stock > 0 %}
+          <label class="btn btn-light rounded-0">
+            <input type="radio" name="radio_size" value="{{pr.id}}"> {{pr.size}}
+          </label>
+          {%endif%}
+          {% endfor %}
+     
+        </div> 
+      </div>
+    </div> <!-- row.// -->
+    <hr>
+    <button class="btn btn-dark rounded-0 addToCartButton" id="addToCartButton">Add to Cart</button>
+    <button class="btn btn-dark rounded-0 addToWishlistButton" id="addToWishlistButton">Add to Wishlist</button>
+    <div id="message" style="display: none;"></div> <!-- Hidden message element -->
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+
+    
+    {% if cart_items%}
+    <a href="{% url 'cart' %}" class="btn btn-dark rounded-0 GoToCart" id="GoToCart">Go to cart</a>
+    {%endif%}
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("#addToCartButton").on("click", function() {
+            // Get the selected variant ID
+            var selectedVariantId = $('input[name="radio_size"]:checked').val();
+    
+            // Make an AJAX request to add the item to the cart
+            $.ajax({
+                url: "/add_to_cart/" + selectedVariantId + "/",
+                type: "GET", // Change this to POST if needed
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log("Item added to cart.");
+                    console.log("Response from server:", response);
+    
+                    // Display a success message
+                    var messageElement = $("#message");
+                    messageElement.text("Item added to cart successfully.");
+                    messageElement.css("display", "block");
+    
+                    // Hide the message after a few seconds (e.g., 5 seconds)
+                    setTimeout(function() {
+                        messageElement.css("display", "none");
+                    }, 5000); // 5000 milliseconds = 5 seconds
+                },
+                error: function(error) {
+                    // Handle any errors that occur during the AJAX request
+                    console.error("Error adding item to cart: " + error.responseText);
+                }
+            });
+        });
+    });
+
+
+
+    //Add to Wishlist script
+
+    $(document).ready(function() {
+      $("#addToWishlistButton").on("click", function() {
+          // Get the selected variant ID
+          var product ={{pro.id}};
+  
+          // Make an AJAX request to add the item to the cart
+          $.ajax({
+              url: "/add_to_wishlist/" + product + "/",
+              type: "GET", // Change this to POST if needed
+              success: function(response) {
+                  // Handle the response from the server
+                  console.log("Item added to Wishlist.");
+                  console.log("Response from server:", response);
+  
+                  // Display a success message
+                  var messageElement = $("#message");
+                  messageElement.text("Item added to Wishlist successfully.");
+                  messageElement.css("display", "block");
+  
+                  // Hide the message after a few seconds (e.g., 5 seconds)
+                  setTimeout(function() {
+                      messageElement.css("display", "none");
+                  }, 5000); // 5000 milliseconds = 5 seconds
+              },
+              error: function(error) {
+                  // Handle any errors that occur during the AJAX request
+                  console.error("Error adding item to wishlist: " + error.responseText);
+              }
+          });
+      });
+  });
+    
+    </script>
+   
+    
+    
+    
+    
+    
+    
+
+  </article> <!-- product-info-aside .// -->
+      </main> <!-- col.// -->
+    </div> <!-- row.// -->
+  </div> <!-- card.// -->
+  <!-- ============================ COMPONENT 1 END .// ================================= -->
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-9">
+
+        <header class="section-heading">
+          <h3>Customer Reviews</h3>
+        </header>
+
+        <article class="box mb-3">
+          <div class="icontext w-100">
+            <img src="{% static 'images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">
+            <div class="text">
+              <span class="date text-muted float-md-right">24.04.2020</span>
+              <h6 class="mb-1">Mike John</h6>
+            </div>
+          </div> <!-- icontext.// -->
+          <div class="mt-3">
+            <p>
+              Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+            </p>
+          </div>
+        </article>
+
+        <!-- Your "Add to Cart" button and JavaScript code here -->
+    
+      </div> <!-- col.// -->
+    </div> <!-- row.// -->
+
+  </div> <!-- container .//  -->
+</section>
+
+
+
+<script type="text/javascript" >
+  let thumbnails = document.getElementsByClassName('thumbnail')
+
+let activeImages = document.getElementsByClassName('active')
+
+for (var i=0; i < thumbnails.length; i++){
+
+thumbnails[i].addEventListener('click', function(){
+console.log(activeImages)
+
+if (activeImages.length > 0){
+activeImages[0].classList.remove('active')
+}
+
+
+this.classList.add('active')
+document.getElementById('featured').src = this.src
+})
+}
+
+
+let buttonRight = document.getElementById('slideRight');
+let buttonLeft = document.getElementById('slideLeft');
+
+buttonLeft.addEventListener('click', function(){
+document.getElementById('slider').scrollLeft -= 180
+})
+
+buttonRight.addEventListener('click', function(){
+document.getElementById('slider').scrollLeft += 180
+})
+</script>
+<script type="text/javascript"  >
+
+  window.addEventListener("load", function() {
+    // Get the div element
+    let lens = document.getElementById('lens')
+    lens.style.display = "none"
+    
+    // Remove the div element from the DOM
+   
+  });
+
+  document.getElementById('img-container').addEventListener('mouseover', function(){
+      imageZoom('featured')
+      
+  })
+  document.getElementById('img-container').addEventListener('mouseout', function(){
+    let lens = document.getElementById('lens')
+    lens.style.display = "none"
+      
+  })
+  
+  function imageZoom(imgID){
+      let img = document.getElementById(imgID)
+      let lens = document.getElementById('lens')
+      lens.style.display = "block"
+      lens.style.backgroundImage = url( ${img.src} )
+  
+      let ratio = 5
+  
+      lens.style.backgroundSize = (img.width * ratio) + 'px ' + (img.height * ratio) + 'px';
+  
+      img.addEventListener("mousemove", moveLens)
+      lens.addEventListener("mousemove", moveLens)
+      img.addEventListener("touchmove", moveLens)
+  
+      function moveLens(){
+          /*
+          Function sets sets position of lens over image and background image of lens
+          1 - Get cursor position
+          2 - Set top and left position using cursor position - lens width & height / 2
+          3 - Set lens top/left positions based on cursor results
+          4 - Set lens background position & invert
+          5 - Set lens bounds
+      
+          */
+  
+          //1
+          let pos = getCursor()
+          //console.log('pos:', pos)
+  
+          //2
+          let positionLeft =  pos.x - (lens.offsetWidth / 2)
+          let positionTop = pos.y - (lens.offsetHeight / 2)
+  
+          //5
+          if(positionLeft < 0 ){
+              positionLeft = 0
+          }
+  
+          if(positionTop < 0 ){
+              positionTop = 0
+          }
+  
+          if(positionLeft > img.width - lens.offsetWidth /3 ){
+              positionLeft = img.width - lens.offsetWidth /3
+          }
+  
+          if(positionTop > img.height - lens.offsetHeight /3 ){
+              positionTop = img.height - lens.offsetHeight /3
+          }
+  
+  
+          //3
+          lens.style.left = 500 + positionLeft + 'px';
+          lens.style.top = positionTop + 'px';
+  
+          //4
+          lens.style.backgroundPosition = "-" + (pos.x * ratio) + 'px -' +  (pos.y * ratio) + 'px'
+      }
+  
+      function getCursor(){
+          /* Function gets position of mouse in dom and bounds
+           of image to know where mouse is over image when moved
+          
+          1 - set "e" to window events
+          2 - Get bounds of image
+          3 - set x to position of mouse on image using pageX/pageY - bounds.left/bounds.top
+          4- Return x and y coordinates for mouse position on image
+          
+           */
+  
+          let e = window.event
+          let bounds = img.getBoundingClientRect()
+  
+          //console.log('e:', e)
+          //console.log('bounds:', bounds)
+          let x = e.pageX - bounds.left
+          let y = e.pageY - bounds.top
+          x = x - window.pageXOffset;
+          y = y - window.pageYOffset;
+          
+          return {'x':x, 'y':y}
+      }
+  
+  }
+  
+  imageZoom('featured')
+
+
+
+    document.querySelector('.addToCartButton').addEventListener('click', function (event) {
+      event.preventDefault();
+    
+      const selectedSizeElement = document.querySelector('input[name="radio_size"]:checked');
+      const selectedSize = selectedSizeElement ? selectedSizeElement.value : null;
+    
+      if (selectedSize !== null) {
+        const productId = this.getAttribute('data-product-id');
+    
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/add_to_cart/${productId}/?selectedsize=${selectedSize}`);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            alert('Product added to cart!');
+          }
+        };
+        xhr.send();
+      } else {
+        alert('Please select a size before adding to cart.');
+      }
+    });
+
+
+
+    //Add to wishlist script
+    document.querySelector('.addToWishlistButton').addEventListener('click', function (event) {
+      event.preventDefault();
+    
+      const selectedSizeElement = document.querySelector('input[name="radio_size"]:checked');
+      const selectedSize = selectedSizeElement ? selectedSizeElement.value : null;
+    
+      if (selectedSize !== null) {
+        const productId = this.getAttribute('data-product-id');
+    
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/add_to_wishlist/${productId}/?selectedsize=${selectedSize}`);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            alert('Product added to wishlist!');
+          }
+        };
+        xhr.send();
+      } else {
+        
+      }
+    });
+    
+ 
+  
+  
+</script>
+
+{% endblock %}

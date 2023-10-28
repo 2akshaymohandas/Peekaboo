@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y bg">
+
+<div class="container">
+	<div class="row">
+	<aside class="col-md-3">
+		<!--   SIDEBAR   -->
+		<ul class="list-group">
+			<a class="list-group-item " href="{%url 'myorders'%}"> My order history </a>
+			<a class="list-group-item " href="#"> Addresses </a>
+			<a class="list-group-item" href="#"> Return and refunds </a>
+			<a class="list-group-item active" href="#">Profile </a>
+			<a class="list-group-item" href="#"> My Selling Items </a>
+			<a class="list-group-item" href="{%url 'myorders'%}"> Orders </a>
+		</ul>
+		<br>
+		<a class="btn btn-light btn-block" href="#"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a> 
+		<!--   SIDEBAR .//END   -->
+	 </aside>
+	<main class="col-md-9">
+		<article class="card">
+
+			<div class="card-body">
+				<div class="row">
+				  <div class="col-md-8">
+					<header class="card-header">
+					  <strong class="d-inline-block mr-3">Profile Details</strong>
+					  <!-- Leave some space for Wallet Balance -->
+					</header>
+				  </div>
+				  <div class="col-md-4 text-md-right">
+					<strong class="d-inline-block">Wallet Balance: {{wallet.balance}}</strong>
+				  </div>
+				</div>
+					
+				<p>{{user.name}} </p>  
+
+				{%if address %}
+					Phone {{address.phone}}<br> Email: {{user.email}} <br>
+			    	Address: {{address.house_name}}<br> {{address.address_line_1}} {{address.city}}, {{address.state}} <br> 
+			    	Pin: {{address.pincode}}
+			 		</p>
+					{% endif %}
+
+					 <a class="  btn-block" href="{%url 'forgotPassword'%}"> <i class=""></i> <span class="text">Reset Password</span> </a> 
+					 <a class="  btn-block" href="{%url 'edit_address'%}"> <i class=""></i> <span class="text">Edit Address</span> </a> 
+					
+
+					 
+				</div>
+				
+
+			</div> <!-- row.// -->
+		</div> <!-- card-body .// -->
+		<div class="table-responsive">
+
+		</div> <!-- table-responsive .end// -->
+		</article> <!-- order-group.// --> 
+	  </main>
+  </div> <!-- row.// -->
+</div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

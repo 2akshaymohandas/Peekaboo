@@ -1,0 +1,259 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{%block content%}
+
+<section class="section-content padding-y bg">
+	<div class="container">
+	
+	<!-- ============================ COMPONENT 1 ================================= -->
+	
+	<div class="row">
+		<aside class="col-lg-9">
+	<div class="card">
+	<table class="table table-borderless table-shopping-cart">
+	<thead class="text-muted">
+	<tr class="small text-uppercase">
+	  <th scope="col">Product</th>
+	  <th scope="col" width="120">Quantity</th>
+	  <th scope="col" width="120">Price</th>
+	  <th scope="col" class="text-right" width="200"> </th>
+	</tr>
+	</thead>
+	<tbody>
+		{% for cart_item in cart_items %}
+	<tr>
+		
+		<td>
+			<figure class="itemside align-items-center">
+				<div class="aside"><img src="{{cart_item.product.image.url}}" class="img-sm"></div>
+				<figcaption class="info">
+					<a href="#" class="title text-dark">{{cart_item.product_variant.product_name}}</a>
+					<p class="text-muted small">Size: {{ cart_item.product_variant.size}} <br> Quantity: {{ cart_item.quantity }}</p>
+				</figcaption>
+			</figure>
+		</td>
+		<td> 
+			<!-- col.// -->
+			<script>
+				$(document).ready(function(){
+					$(".button-plus").click(function(){
+						var item_id = $(this).data('item-id');
+						var currentValue = parseInt($("#quantity-input-" + item_id).val());
+						var newQuantity = currentValue + 1;
+						updateQuantity(item_id, newQuantity);
+					});
+					
+					$(".button-minus").click(function(){
+						var item_id = $(this).data('item-id');
+						var currentValue = parseInt($("#quantity-input-" + item_id).val());
+						if(currentValue > 1){
+							var newQuantity = currentValue - 1;
+							updateQuantity(item_id, newQuantity);
+						}
+					});
+			
+					function updateQuantity(item_id, newQuantity) {
+						$.ajax({
+							type: "POST",
+							url: "{% url 'update_cart_item' %}",
+							data: {
+								'cart_item_id': item_id,
+								'new_quantity': newQuantity,
+								'csrfmiddlewaretoken': '{{ csrf_token }}'
+							},
+							success: function(data) {
+								// Handle success if needed
+								console.log(data.message);
+							},
+							error: function() {
+								// Handle error if needed
+								console.error('An error occurred during the AJAX request.');
+							}
+						});
+					}
+				});
+			</script>
+			
+						<div class="col"> 
+							<div class="input-group input-spinner">
+								<div class="input-group-prepend">
+									<button class="btn btn-light button-minus" data-item-id="{{ cart_item.id }}" type="button"> <i class="fa fa-minus"></i> </button>
+								</div>
+								<input type="text" class="form-control" id="quantity-input-{{ cart_item.id }}" value="{{ cart_item.quantity }}">
+								<div class="input-group-append">
+									<button class="btn btn-light button-plus" data-item-id="{{ cart_item.id }}" type="button"> <i class="fa fa-plus"></i> </button>
+								</div>
+							</div>
+						</div> <!-- col.// -->
+
+
+
+
+
+		</td>
+		<td> 
+			<div class="price-wrap"> 
+				<var class="price">$ {{sum}}</var> 
+				{% comment %} <small class="text-muted"> $315.20 each </small>  {% endcomment %}
+			</div> <!-- price-wrap .// -->
+		</td>
+		<td class="text-right"> 
+		<a href="{% url 'delete_cart_item' cart_item.id %}" class="btn btn-danger"> Remove</a>
+		</td>
+	</tr>
+	{%endfor%}
+	
+	</tbody>
+	</table>
+	</div> <!-- card.// -->
+	
+		</aside> <!-- col.// -->
+		<aside class="col-lg-3">
+
+
+
+
+
+
+				{%if cart_items%}
+			<div class="card">
+
+				
+				
+
+
+
+
+			  <div class="card-body">
+				<dl class="dlist-align">
+				  <dt>Total price:</dt>
+				  <dd class="text-right">${{sum}}</dd>
+				</dl>
+				
+					<div class="cart__discount">
+						<h5>Apply Coupon</h5>
+							
+							<input type="text" name="coupon" id="coupon" placeholder="Coupon code" style="padding: 5px; border: 1px solid #ccc;height:45px;">
+							
+							
+							<button id="apply-coupon-button" class="btn btn-info rounded-0 btn-block mt-2">Apply</button>
+							<h6 id="coupon-id" style="padding-top:1rem;"></h6>
+							<h6>Available Coupons</h6>
+							{% for c in coupon %}
+							<ul>
+								<li>{{c.coupon_code}} - Get ₹ {{c.discount_price}} discount</li>
+							</ul>
+							{% endfor %}
+
+				
+				{% comment %} <dl class="dlist-align">
+				  <dt>Coupon code:</dt>
+				  <dd class="text-right">
+					<input type="text" name="coupon_code" class="form-control">
+				</dd>
+				
+			
+				</dl>
+				<button type="submit" class="btn btn-dark rounded-0 btn-block">Apply Coupon</button> {% endcomment %}
+				<dl class="dlist-align">
+					<dt>Total discount:</dt>
+					<dd class="text-right">$00.00</dd>
+				  </dl>
+				<dl class="dlist-align">
+				  <dt>Total:</dt>
+				  <dd id="total_price" class="text-right text-dark b">₹{{sum}}</dd>
+				</dl>
+				<hr>
+				<p class="text-center mb-3">
+					{% comment %} <img src="./images/misc/payments.png" height="26"> {% endcomment %}
+				</p>
+				<a href="{% url 'checkout' %}" class="btn btn-dark rounded-0 btn-block"> Checkout </a>
+				<a href="./store.html" class="btn btn-light btn-block">Continue Shopping</a>
+			</div> <!-- card-body.// -->
+			{%endif%}
+			
+
+
+
+			<script>
+				
+
+				function getCookie(name) {
+					var cookieValue = null;
+					if (document.cookie && document.cookie !== '') {
+						var cookies = document.cookie.split(';');
+						for (var i = 0; i < cookies.length; i++) {
+						var cookie = cookies[i].trim();
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+						}
+					}
+					return cookieValue;
+					}
+				   $(document).ready(function() {
+					$(document).on('click', '#apply-coupon-button', function() {
+					  applyCoupon();
+					});
+	
+				  });
+
+
+				function applyCoupon() {
+					console.log("button clicked");
+					var url = "{% url 'apply_coupon' %}";
+					var csrfToken = getCookie('csrftoken');
+					var coupon = $('#coupon').val();
+					console.log(coupon);
+					console.log("hii");
+					var couponId = $('#coupon-id');
+					console.log(couponId);
+				  
+					var totalPrice = parseInt($("#total_price").text().replace('₹', ''));
+					
+	
+					console.log(totalPrice);
+				  
+					$.ajax({
+					  url: url,
+					  type: 'POST',
+					  dataType: 'json',
+					  headers: {
+						'Content-type': 'application/json',
+						'X-CSRFToken': csrfToken
+					  },
+					  data: JSON.stringify({
+						coupon: coupon,
+						total_price: totalPrice
+					  }),
+					  success: function(response) {
+						if (response) {
+						  couponId.html(response.message);
+						  $('#total_price').text('₹ ' + response.total);
+						}
+					  },
+					  error: function() {
+						console.log('Error');
+					  }
+					});
+				  }
+
+
+			</script>
+			
+			</div> <!-- card.// -->
+			
+	
+	</aside> <!-- col.// -->
+	
+	
+	</div> <!-- row.// -->
+	<!-- ============================ COMPONENT 1 END .// ================================= -->
+	
+	</div> <!-- container .//  -->
+	</section>
+	
+	{% endblock %}
