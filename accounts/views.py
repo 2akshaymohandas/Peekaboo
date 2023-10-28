@@ -213,7 +213,7 @@ def product_details(request, slug):
 
 
 
-#OTP_COMMENTED
+# OTP_COMMENTED
 # def otp_login(request):
 #     if request.method == 'POST':
 #         form = PhonecheckForm(request.POST)
@@ -318,7 +318,7 @@ def edit_address(request, id=1):
 
     
 
-#OTP_COMMENTED
+# OTP_COMMENTED
 
 # def forgotPassword(request):
 #     if request.method == 'POST':
@@ -343,7 +343,7 @@ def edit_address(request, id=1):
 
 
 
-#OTP_COMMENTED
+# OTP_COMMENTED
 # def forgotPassword_otp(request):
 #     mobile_number_forgotPassword = request.session.get('mobile_number_forgotPassword')
 
@@ -363,7 +363,7 @@ def edit_address(request, id=1):
 
 #     return render(request, 'accounts/forgotPassword_otp.html', {'form': form})
 
-# # Similarly, update other views that need to access mobile_number_forgotPassword
+# Similarly, update other views that need to access mobile_number_forgotPassword
 
 
 
