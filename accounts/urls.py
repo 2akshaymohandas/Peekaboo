@@ -11,7 +11,7 @@ urlpatterns = [
     path('signin', views.signin, name="signin"),
     path('signout', views.signout, name="signout"),
 
-    path('otp_login', views.otp_login, name="otp_login"),
+    # path('otp_login', views.otp_login, name="otp_login"),
     path('verify_code', views.verify_code, name="verify_code"),
 
     path('product/<slug:slug>/', views.product_details, name="product_details"),
@@ -20,8 +20,8 @@ urlpatterns = [
 
     path('dashboard', views.dashboard, name="dashboard"),
 
-    path('forgotPassword', views.forgotPassword,name="forgotPassword"),
-    path('forgotPassword_otp', views.forgotPassword_otp,name="forgotPassword_otp"),
+    # path('forgotPassword', views.forgotPassword,name="forgotPassword"),
+    # path('forgotPassword_otp', views.forgotPassword_otp,name="forgotPassword_otp"),
     path('resetPassword', views.resetPassword,name="resetPassword"),
 
     path('edit_address', views.edit_address,name="edit_address"),

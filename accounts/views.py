@@ -213,64 +213,36 @@ def verify_code(request):
 
 
 
+#OTP_COMMENTED
 # def otp_login(request):
-    
 #     if request.method == 'POST':
-          
 #         form = PhonecheckForm(request.POST)
 #         if form.is_valid():
-#              phone  = form.cleaned_data.get('phone_number')
-             
-#              print(phone)
-#         if User:
-#             CustomUser.objects.get(phone_number=phone)
+#             phone = form.cleaned_data.get('phone_number')
+#             print(phone)  # Check if the phone number is received correctly
 
-#             if User:
-#                 # 
-#                 phone = '+91' + phone
-#                 request.session['phone_number'] = phone
-                
-#                 verify.send(phone)
-#                 return redirect('verify_code')    
-#         else:
-#             # messages.warning(request,'Invalid OTP')
-#             # messages.error(request,'Invalid Login credentials')
-#             return redirect('otp_login')
+#             try:
+#                 user = CustomUser.objects.get(phone_number=phone)  # Assuming 'phone_number' is the field name in your CustomUser model
+#                 if user:
+#                     phone = '+91' + phone
+#                     request.session['phone_number'] = phone
+#                     print(phone)
+#                     # Assuming 'verify' is the method responsible for sending the verification code
+#                     verify.send(phone)
+#                     return redirect('verify_code')  # Redirect to the verify_code URL
+#                 else:
+#                     # Handle the case when the user does not exist
+#                     # messages.warning(request,'Invalid OTP')
+#                     messages.error(request,'Invalid User')
+#                     return redirect('otp_login')  # Redirect to the otp_login URL
+#             except CustomUser.DoesNotExist:
+#                 messages.error(request,'User does not exist')
+#                 # messages.warning(request,'Invalid OTP')
+#                 return redirect('otp_login')  # Redirect to the otp_login URL
 #     else:
 #         form = PhonecheckForm()
 
-        
 #     return render(request, 'accounts/otp_login.html', {'form': form})
-
-
-def otp_login(request):
-    if request.method == 'POST':
-        form = PhonecheckForm(request.POST)
-        if form.is_valid():
-            phone = form.cleaned_data.get('phone_number')
-            print(phone)  # Check if the phone number is received correctly
-
-            try:
-                user = CustomUser.objects.get(phone_number=phone)  # Assuming 'phone_number' is the field name in your CustomUser model
-                if user:
-                    phone = '+91' + phone
-                    request.session['phone_number'] = phone
-                    # Assuming 'verify' is the method responsible for sending the verification code
-                    verify.send(phone)
-                    return redirect('verify_code')  # Redirect to the verify_code URL
-                else:
-                    # Handle the case when the user does not exist
-                    # messages.warning(request,'Invalid OTP')
-                    messages.error(request,'Invalid User')
-                    return redirect('otp_login')  # Redirect to the otp_login URL
-            except CustomUser.DoesNotExist:
-                messages.error(request,'User does not exist')
-                # messages.warning(request,'Invalid OTP')
-                return redirect('otp_login')  # Redirect to the otp_login URL
-    else:
-        form = PhonecheckForm()
-
-    return render(request, 'accounts/otp_login.html', {'form': form})
 
 
 
@@ -346,51 +318,52 @@ def edit_address(request, id=1):
 
     
 
+#OTP_COMMENTED
 
-def forgotPassword(request):
-    if request.method == 'POST':
-        mobile_number_forgotPassword = request.POST.get('phone_number')
-        # Checking for the null case
-        if not mobile_number_forgotPassword:
-            messages.warning(request, 'You must enter a mobile number')
-            return redirect('forgotPassword')
+# def forgotPassword(request):
+#     if request.method == 'POST':
+#         mobile_number_forgotPassword = request.POST.get('phone_number')
+#         # Checking for the null case
+#         if not mobile_number_forgotPassword:
+#             messages.warning(request, 'You must enter a mobile number')
+#             return redirect('forgotPassword')
 
-        # Store the mobile number in the session
-        request.session['mobile_number_forgotPassword'] = mobile_number_forgotPassword
+#         # Store the mobile number in the session
+#         request.session['mobile_number_forgotPassword'] = mobile_number_forgotPassword
 
-        user = CustomUser.objects.filter(phone_number=mobile_number_forgotPassword)
-        if user:
-            verify.send('+91' + str(mobile_number_forgotPassword))
-            return redirect('forgotPassword_otp')
-        else:
-            messages.warning(request, 'Mobile number doesnt exist')
-            return redirect('forgotPassword')
+#         user = CustomUser.objects.filter(phone_number=mobile_number_forgotPassword)
+#         if user:
+#             verify.send('+91' + str(mobile_number_forgotPassword))
+#             return redirect('forgotPassword_otp')
+#         else:
+#             messages.warning(request, 'Mobile number doesnt exist')
+#             return redirect('forgotPassword')
 
-    return render(request, 'accounts/forgotPassword.html')
-
-
+#     return render(request, 'accounts/forgotPassword.html')
 
 
-def forgotPassword_otp(request):
-    mobile_number_forgotPassword = request.session.get('mobile_number_forgotPassword')
 
-    if request.method == 'POST':
-        form = VerifyForm(request.POST)
-        if form.is_valid():
-            otp = form.cleaned_data.get('code')
-            if verify.check('+91' + str(mobile_number_forgotPassword), otp):
-                user = CustomUser.objects.get(phone_number=mobile_number_forgotPassword)
-                if user:
-                    return redirect('resetPassword')
-            else:
-                messages.warning(request, 'Invalid OTP')
-                return redirect('enter_otp')
-    else:
-        form = VerifyForm()
+#OTP_COMMENTED
+# def forgotPassword_otp(request):
+#     mobile_number_forgotPassword = request.session.get('mobile_number_forgotPassword')
 
-    return render(request, 'accounts/forgotPassword_otp.html', {'form': form})
+#     if request.method == 'POST':
+#         form = VerifyForm(request.POST)
+#         if form.is_valid():
+#             otp = form.cleaned_data.get('code')
+#             if verify.check('+91' + str(mobile_number_forgotPassword), otp):
+#                 user = CustomUser.objects.get(phone_number=mobile_number_forgotPassword)
+#                 if user:
+#                     return redirect('resetPassword')
+#             else:
+#                 messages.warning(request, 'Invalid OTP')
+#                 return redirect('enter_otp')
+#     else:
+#         form = VerifyForm()
 
-# Similarly, update other views that need to access mobile_number_forgotPassword
+#     return render(request, 'accounts/forgotPassword_otp.html', {'form': form})
+
+# # Similarly, update other views that need to access mobile_number_forgotPassword
 
 
 
