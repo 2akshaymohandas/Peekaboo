@@ -87,26 +87,14 @@ WSGI_APPLICATION = 'Peekaboo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'peekaboo',
-#         'USER': 'root',
-#         'PASSWORD': 'kid@0808',
-#         'HOST': 'localhost',
-#         'PORT': 3306,
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pekaboo',
-        'USER': 'kid',
-        'PASSWORD': '1234',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'peekaboo',
+        'USER': 'root',
+        'PASSWORD': 'kid@0808',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': 3306,
     }
 }
 
