@@ -184,31 +184,31 @@ def product_details(request, slug):
                                                          )
 
 
-def verify_code(request):
-    if request.method == 'POST':
-        form = VerifyForm(request.POST)
-        if form.is_valid():
-            code = form.cleaned_data.get('code')
-            phone = request.session.get('phone_number')
-            print(phone)
+# def verify_code(request):
+#     if request.method == 'POST':
+#         form = VerifyForm(request.POST)
+#         if form.is_valid():
+#             code = form.cleaned_data.get('code')
+#             phone = request.session.get('phone_number')
+#             print(phone)
 
-            if verify.check(phone, code):
-                try:
-                    user = CustomUser.objects.get(phone_number=phone)
-                    # Perform any additional checks if needed
-                    if user.is_active and not user.is_superuser:
-                        login(request, user)
-                        return redirect('home')
-                    else:
-                        return redirect('inactive_user')  # Redirect to a page for inactive users
-                except CustomUser.DoesNotExist:
-                    return redirect('user_not_found')  # Redirect to a page for users not found
-            else:
-                print("error")  
+#             if verify.check(phone, code):
+#                 try:
+#                     user = CustomUser.objects.get(phone_number=phone)
+#                     # Perform any additional checks if needed
+#                     if user.is_active and not user.is_superuser:
+#                         login(request, user)
+#                         return redirect('home')
+#                     else:
+#                         return redirect('inactive_user')  # Redirect to a page for inactive users
+#                 except CustomUser.DoesNotExist:
+#                     return redirect('user_not_found')  # Redirect to a page for users not found
+#             else:
+#                 print("error")  
 
-    else:
-        form = VerifyForm()
-    return render(request, 'accounts/verify_code.html', {'form': form})
+#     else:
+#         form = VerifyForm()
+#     return render(request, 'accounts/verify_code.html', {'form': form})
 
 
 
