@@ -34,21 +34,3 @@ yarl                 == 1.9.2
 
 
 
-
-[Unit]
-Description=gunicorn daemon
-Requires=gunicorn.socket
-After=network.target
-
-[Service]
-User=ubuntu
-Group=www-data
-WorkingDirectory=/home/ubuntu/Peekaboo
-ExecStart=/home/ubuntu/myprojectenv/bin/gunicorn \
-          --access-logfile - \
-          --workers 3 \
-          --bind unix:/run/gunicorn.sock \
-          Peekaboo.wsgi:application
-
-[Install]
-WantedBy=multi-user.target
