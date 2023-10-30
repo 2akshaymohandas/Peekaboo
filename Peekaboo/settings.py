@@ -92,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'peekaboo',
         'USER': 'root',
-        'PASSWORD': 'kid',
+        'PASSWORD': 'kid@0808',
         'HOST': 'localhost',
         'PORT': 3306,
     }
