@@ -91,8 +91,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'peekaboo',
-        'USER': 'root',
-        'PASSWORD': 'kid@0808',
+        'USER': 'kid',
+        'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': 3306,
     }
