@@ -259,7 +259,7 @@ def dashboard(request):
     addresses = Address.objects.filter()
    
     
-    wallet = Wallet.objects.get(user=request.user)
+    # wallet = Wallet.objects.get(user=request.user)
    
     
     
@@ -272,7 +272,7 @@ def dashboard(request):
 
     context = { "user" : user,
                "address" : address,
-                "wallet": wallet,
+                # "wallet": wallet,
             }
 
     
