@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-amfi2ez72%()f-pnb_fv=#9)8yacg7@$af+iq*)0$cwb_e3ym^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -92,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'peekaboo',
         'USER': 'root',
-        'PASSWORD': 'kid@0808',
+        'PASSWORD': 'kid',
         'HOST': 'localhost',
         'PORT': 3306,
     }
