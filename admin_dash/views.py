@@ -493,7 +493,7 @@ def del_size(request, id):
         prod.delete()
         return redirect('size')
     
-
+@login_required(login_url='admin_login')
 def orders(request):
     orders = Order.objects.all().order_by("-created_at")
     return render(request, 'admin/admin_myorder.html', {'orders':orders})
