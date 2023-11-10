@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
     dependencies = [
         ('products', '0018_product_cropping'),
     ]
-products\migrations\0019_category_offer.py
     operations = [
         migrations.CreateModel(
             name='Category_offer',
