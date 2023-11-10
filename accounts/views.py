@@ -153,7 +153,7 @@ def store(request,category_slug = None,):
 def product_details(request, slug):
 
     pro = get_object_or_404(Product, slug=slug)
-    print("hbhg")
+    print("hahahaha")
     print(pro)
     product_varient=ProductVariant.objects.filter(product_name=pro)
 
@@ -166,9 +166,16 @@ def product_details(request, slug):
         total_discount += offer.discount
 
     offerprice = pro.price - total_discount
+    
 
     if total_discount != 0:
         request.session['offerprice'] = offerprice
+        print("with disc", offerprice)
+
+    else:
+        request.session['offerprice'] = offerprice
+        offerprice
+        print("without disc", offerprice)
 
     image = ProductImage.objects.filter(product_name=pro)
 
@@ -259,20 +266,15 @@ def dashboard(request):
     addresses = Address.objects.filter()
    
     
-    #wallet = Wallet.objects.get(user=request.user)
+    wallet = Wallet.objects.get(user=request.user)
    
-    
-    
-    
-        
-
     if addresses.exists():
         # Select the first address
         address = Address.objects.filter(user=user).first()
 
     context = { "user" : user,
                "address" : address,
-                #"wallet": wallet,
+                "wallet": wallet,
             }
 
     
@@ -453,15 +455,16 @@ def wishlist(request):
 
 def add_to_wishlist(request, id):
     print(id)
-    myproduct = get_object_or_404(Product, pk=id)
-    wishlist_item, created = Wishlist.objects.get_or_create(user=request.user, product=myproduct)
+    product_variant = ProductVariant.objects.filter(pk=id).first()
+    print(product_variant.id)
+    wishlist_item, created = Wishlist.objects.get_or_create(user=request.user, product_varient=product_variant)
     response_data = {'created': created}
-    return redirect('wishlist')
+    return JsonResponse(response_data)
 
 
 def remove_from_wishlist(request, id):
-    myproduct = get_object_or_404(Product, pk=id)
-    Wishlist.objects.filter(user=request.user, product=myproduct).delete()
+    product_varient = get_object_or_404(ProductVariant, pk=id)
+    Wishlist.objects.filter(user=request.user, product_varient=product_varient).delete()
     messages.success(request, 'Product removed from wishlist.')
     return redirect('wishlist')
 

@@ -3,29 +3,29 @@
 
 {% block content %}
 <style>
-  
+
     #content-wrapper{
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
   }
-  
+
   .column{
       width: 100%%;
       padding: 10px;
-  
+
   }
-  
+
   #featured{
       max-width: 500px;
       max-height: 600px;
-  
+
       cursor: pointer;
-      
-  
+
+
   }
-  
+
   .thumbnail{
       object-fit: cover;
       max-width: 180px;
@@ -33,18 +33,18 @@
       cursor: pointer;
       opacity: 0.5;
       margin: 5px;
-   
-  
+
+
   }
-  
+
   .thumbnail:hover{
       opacity:1;
   }
-  
+
   .active{
       opacity: 1;
   }
-  
+
   #slide-wrapper{
       margin-top: 30px;
       max-width: 500px;
@@ -54,9 +54,9 @@
       margin-left: auto;
       margin-right: auto;
       justify-content: space-around;
-     
+
   }
-  
+
   #slider{
       width: 440px;
       display: flex;
@@ -64,43 +64,43 @@
       overflow-x: auto;
       border: solid 1px #e8e8e8;
       box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
-  
+
   }
-  
+
   #slider::-webkit-scrollbar {
           width: 8px;
-  
+
   }
-  
+
   #slider::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  
+
   }
-   
+
   #slider::-webkit-scrollbar-thumb {
     background-color: #eaeaea;
 
-  
+
   }
-  
+
   #slider::-webkit-scrollbar-thumb:hover{
       background-color: #C5C5C5;
   }
-  
+
   .arrow{
       width: 30px;
       height: 30px;
       cursor: pointer;
       transition: .3s;
-      
+
   }
-  
+
   .arrow:hover{
       opacity: .5;
       width: 35px;
       height: 35px;
   }
-  
+
   #img-container{
       z-index: 1;
       max-width: 600px;
@@ -111,23 +111,23 @@
       border: solid 1px #e8e8e8;
       box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
   }
-  
+
   #lens{
       z-index: 2;
       position: absolute;
-  
+
       height: 400px;
       width: 400px;
       border:2px solid black;
       background-repeat: no-repeat;
       cursor: none;
-  
+
   }
   .review-section{
       color: #fff;
       text-transform: uppercase;
       height: 100px;
-      
+
       max-width: 250px;
       width: 100%;
       background-color: #a8a4a0;
@@ -135,14 +135,14 @@
       font-family: 'Josefin Sans';
       padding: 35px 10px;
   }
-    
 
-  
-  
-  
+
+
+
+
   </style>
-  
-    
+
+
 
 <section class="section-content padding-y bg">
   <div class="container">
@@ -150,7 +150,7 @@
 <!-- ============================ COMPONENT 1 ================================= -->
   <div class="card " href="">
     <div class="row no-gutters">
-    
+
 <div class="col-lg-6 column">
                   <div id="img-container">
                     <div style="border:none; display:block; position: absolute; z-index:3;" id="lens"></div>
@@ -158,54 +158,54 @@
                   </div>
                   <div id="slide-wrapper" >
                     <img id="slideLeft" style="margin-right: 10px;" class="arrow" src="{% static 'arrow-images/arrow-left.png' %}">
-              
+
                     <div id="slider">
                                 <img class="thumbnail active" src="{{product.product_image.url}}">
                                 {% for image in image %}
                       <img class="thumbnail"  src="{{image.image.url}}">
                                 {% endfor %}
                      </div>
-              
+
                     <img id="slideRight" style="margin-left: 10px;" class="arrow" src="{% static 'arrow-images/arrow-right.png' %}">
                   </div>
   </div>
-  
+
 
 
 
 
       <main class="col-md-6 border-left ">
   <article class="content-body ">
-  
+
   <h2 class="title">{{ pro.product_name }}</h2>
-  
+
 
   {% if offer %}
 
-  <div class="mb-3 "> 
+  <div class="mb-3 ">
     <del> <var class="price h5 ">Price: ${{pro.price}}</var> </del>
-  </div> 
+  </div>
 
-  <div class="mb-3"> 
-    <var class="Price h4">Offer price: ${{offerprice}}</var> 
-  </div> 
+  <div class="mb-3">
+    <var class="Price h4">Offer price: ${{offerprice}}</var>
+  </div>
 
   {% else %}
-  <div class="mb-3"> 
-    <var class="price h4">Price: ${{pro.price}}</var> 
-  </div> 
+  <div class="mb-3">
+    <var class="price h4">Price: ${{pro.price}}</var>
+  </div>
 
 
   {% endif %}
-  
+
   <p>{{pro.discription}}</p>
-  
+
   <style>
     .center {
         text-align: center;
     }
 </style>
-  
+
   <hr>
     <div class="row">
       {% comment %} <div class="item-option-select ">
@@ -214,11 +214,11 @@
           <label class="btn btn-light rounded-0">
             <input type="radio" name="radio_color"> White
           </label>
-    
+
           <label class="btn btn-light rounded-0">
             <input type="radio" name="radio_color"> Black
           </label>
-        </div> 
+        </div>
       </div> {% endcomment %}
     </div> <!-- row.// -->
     <div class="row">
@@ -232,45 +232,47 @@
           </label>
           {%endif%}
           {% endfor %}
-     
-        </div> 
+
+        </div>
       </div>
     </div> <!-- row.// -->
     <hr>
     <button class="btn btn-dark rounded-0 addToCartButton" id="addToCartButton">Add to Cart</button>
     <button class="btn btn-dark rounded-0 addToWishlistButton" id="addToWishlistButton">Add to Wishlist</button>
     <div id="message" style="display: none;"></div> <!-- Hidden message element -->
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
 
-    
+
     {% if cart_items%}
     <a href="{% url 'cart' %}" class="btn btn-dark rounded-0 GoToCart" id="GoToCart">Go to cart</a>
     {%endif%}
 
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function() {
         $("#addToCartButton").on("click", function() {
+          
             // Get the selected variant ID
             var selectedVariantId = $('input[name="radio_size"]:checked').val();
-    
+            console.log(selectedVariantId)
+
             // Make an AJAX request to add the item to the cart
             $.ajax({
                 url: "/add_to_cart/" + selectedVariantId + "/",
-                type: "GET", // Change this to POST if needed
+                type: "GET", 
                 success: function(response) {
                     // Handle the response from the server
                     console.log("Item added to cart.");
                     console.log("Response from server:", response);
-    
+
                     // Display a success message
                     var messageElement = $("#message");
                     messageElement.text("Item added to cart successfully.");
                     messageElement.css("display", "block");
-    
+
                     // Hide the message after a few seconds (e.g., 5 seconds)
                     setTimeout(function() {
                         messageElement.css("display", "none");
@@ -288,11 +290,13 @@
 
     //Add to Wishlist script
 
-    $(document).ready(function() {
+   /* $(document).ready(function() {
       $("#addToWishlistButton").on("click", function() {
+        console.log("Hello, world!");
+
           // Get the selected variant ID
           var product ={{pro.id}};
-  
+
           // Make an AJAX request to add the item to the cart
           $.ajax({
               url: "/add_to_wishlist/" + product + "/",
@@ -301,12 +305,12 @@
                   // Handle the response from the server
                   console.log("Item added to Wishlist.");
                   console.log("Response from server:", response);
-  
+
                   // Display a success message
                   var messageElement = $("#message");
                   messageElement.text("Item added to Wishlist successfully.");
                   messageElement.css("display", "block");
-  
+
                   // Hide the message after a few seconds (e.g., 5 seconds)
                   setTimeout(function() {
                       messageElement.css("display", "none");
@@ -318,16 +322,16 @@
               }
           });
       });
-  });
-    
+  }); */
+
     </script>
-   
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 
   </article> <!-- product-info-aside .// -->
       </main> <!-- col.// -->
@@ -360,7 +364,7 @@
         </article>
 
         <!-- Your "Add to Cart" button and JavaScript code here -->
-    
+
       </div> <!-- col.// -->
     </div> <!-- row.// -->
 
@@ -407,21 +411,21 @@ document.getElementById('slider').scrollLeft += 180
     // Get the div element
     let lens = document.getElementById('lens')
     lens.style.display = "none"
-    
+
     // Remove the div element from the DOM
-   
+
   });
 
   document.getElementById('img-container').addEventListener('mouseover', function(){
       imageZoom('featured')
-      
+
   })
   document.getElementById('img-container').addEventListener('mouseout', function(){
     let lens = document.getElementById('lens')
     lens.style.display = "none"
-      
+
   })
-  
+
       function imageZoom(imgID) {
         let img = document.getElementById(imgID);
         let lens = document.getElementById('lens');
@@ -472,15 +476,17 @@ document.getElementById('slider').scrollLeft += 180
 
     document.querySelector('.addToCartButton').addEventListener('click', function (event) {
       event.preventDefault();
-    
+
       const selectedSizeElement = document.querySelector('input[name="radio_size"]:checked');
       const selectedSize = selectedSizeElement ? selectedSizeElement.value : null;
-    
+
       if (selectedSize !== null) {
         const productId = this.getAttribute('data-product-id');
-    
+        console.log(selectedSize);
+
         const xhr = new XMLHttpRequest();
         xhr.open('GET', `/add_to_cart/${productId}/?selectedsize=${selectedSize}`);
+        
         xhr.onload = function () {
           if (xhr.status === 200) {
             alert('Product added to cart!');
@@ -495,31 +501,43 @@ document.getElementById('slider').scrollLeft += 180
 
 
     //Add to wishlist script
-    document.querySelector('.addToWishlistButton').addEventListener('click', function (event) {
-      event.preventDefault();
-    
-      const selectedSizeElement = document.querySelector('input[name="radio_size"]:checked');
-      const selectedSize = selectedSizeElement ? selectedSizeElement.value : null;
-    
-      if (selectedSize !== null) {
-        const productId = this.getAttribute('data-product-id');
-    
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/add_to_wishlist/${productId}/?selectedsize=${selectedSize}`);
-        xhr.onload = function () {
-          if (xhr.status === 200) {
-            alert('Product added to wishlist!');
-          }
-        };
-        xhr.send();
-      } else {
+    $(document).ready(function() {
+      $("#addToWishlistButton").on("click", function() {
         
-      }
-    });
-    
- 
-  
-  
+          // Get the selected variant ID
+          var selectedVariantId = $('input[name="radio_size"]:checked').val();
+          console.log(selectedVariantId)
+
+          // Make an AJAX request to add the item to the cart
+          $.ajax({
+              url: "/add_to_wishlist/" + selectedVariantId + "/",
+              type: "GET", 
+              success: function(response) {
+                  // Handle the response from the server
+                  console.log("Item added to wishlist.");
+                  console.log("Response from server:", response);
+
+                  // Display a success message
+                  var messageElement = $("#message");
+                  messageElement.text("Item added to cart successfully.");
+                  messageElement.css("display", "block");
+
+                  // Hide the message after a few seconds (e.g., 5 seconds)
+                  setTimeout(function() {
+                      messageElement.css("display", "none");
+                  }, 5000); // 5000 milliseconds = 5 seconds
+              },
+              error: function(error) {
+                  // Handle any errors that occur during the AJAX request
+                  console.error("Error adding item to cart: " + error.responseText);
+              }
+          });
+      });
+  });
+
+
+
+
 </script>
 
 {% endblock %}

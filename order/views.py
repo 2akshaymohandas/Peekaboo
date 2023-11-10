@@ -41,7 +41,7 @@ def myorder_products(request, id):
         'myorder':myorder,
         'add': add,
     }
-    return render(request, 'myorders_products.html', context) 
+    return render(request, 'store/myorders_products.html', context) 
 
 
 
@@ -92,7 +92,7 @@ def return_order(request,id):
                 refund_amount = decimal.Decimal(order.order_total)
                 wallet.balance += refund_amount
                 wallet.save()
-                print(wallet.balance)
+                print("Wallet Bal:",wallet.balance)
                 if order.status == 'Return':
                     for product in orders:
                         product.variation.stock += product.quantity
@@ -113,8 +113,8 @@ def place_order(request,id,payment_method):
 
 
             #cart_items.delete()
-            if 'total' in request.session:
-                del request.session['total']
+            if 'total_price' in request.session:
+                del request.session['total_price']
 
             return redirect ("thanks_page")
         else:
@@ -124,8 +124,8 @@ def place_order(request,id,payment_method):
             pymentid=str(uuid.uuid4()) 
             cart= Cart.objects.get(user=user)
             
-            if 'total' in request.session:
-                    total = request.session['total']
+            if 'total_price' in request.session:
+                    total_price = request.session['total_price']
                     
             else:
                     total = cart.get_total_price()
@@ -168,8 +168,13 @@ def place_order(request,id,payment_method):
                     )
 
             #cart_items.delete()
-            if 'total' in request.session:
-                del request.session['total']
+            if 'total_price' in request.session:
+                del request.session['total_price']
+
+            if 'discount_price' in request.session:
+                del request.session['discount_price']
+
+                
 
             return redirect ("thanks_page")
         
@@ -184,8 +189,8 @@ class PlaceOrderView(View):
         pymentid=str(uuid.uuid4()) 
         cart= Cart.objects.get(user=user)
         
-        if 'total' in request.session:
-                total = request.session['total']
+        if 'total_price' in request.session:
+                total = request.session['total_price']
                 
         else:
                 total = cart.get_total_price()
@@ -236,8 +241,10 @@ class PlaceOrderView(View):
         cart_items.delete()
         if 'offerprice' in request.session:
             del request.session['offerprice']
-        if 'total' in request.session:
-            del request.session['total']
+        if 'total_price' in request.session:
+            del request.session['total_price']
+        if 'discount_price' in request.session:
+            del request.session['discount_price']
             
         return redirect ("thanks_page")
 
@@ -264,8 +271,8 @@ def confirm_payment(request,id):
             sum = int(cart.get_total_price())
             
 
-            if 'total' in request.session:
-                sum = request.session['total']
+            if 'total_price' in request.session:
+                sum = request.session['total_price']
             else:
                 total = cart.get_total_products()
 

@@ -20,7 +20,7 @@ def add_to_cart(request,id):
     
     if request.method == 'GET':
         user = request.user if request.user.is_authenticated else None
-        print("enerde")
+        print("entered")
         
         cart, _ = Cart.objects.get_or_create(user=user)
         
@@ -30,6 +30,7 @@ def add_to_cart(request,id):
         
         # Check if the selected size is in stock for the product
         product_variant = ProductVariant.objects.filter(pk=id).first()
+        print(product_variant.id)
         product=product_variant.product_name
         print(product_variant)
         if product_variant and product_variant.stock:
@@ -82,26 +83,33 @@ def cart(request):
             
             cart_items = CartItem.objects.filter(user=user)
             if cart_items:
+
                 total = cart.get_total_products()
                 coupon = Coupon.objects.all()
 
-                # Check if an offer price is available in the session
-                offerprice = request.session.get('offerprice', None)
-                if offerprice:
-                    sum = offerprice  # Set the offer price as the sum
-                    print("OfferPrice")
-                else:
-                    sum = cart.get_total_price()
-                    print("hellowww")
+                #Price in session from apply_coupon
+                if 'total_price' in request.session:
+                    total_price = request.session.get('total_price', None)
+                else: 
+                    total_price = cart.get_total_price()
 
+                totalqty = sum(item.get_subtotal() for item in cart_items)
+                print("totalQty:",totalqty)
+
+                #discount in session from apply_coupon    
+                if 'discount_price' in request.session:
+                    coup_discount = request.session['discount_price']
+                
+                else:
+                    coup_discount = 00
 
                 context = {
-                    'cart_items': cart_items,
-                    'cart': cart,
-                    'sum': sum,
-                    'total': total,
-                    'coupon' : coupon,
-                    'offerprice': offerprice,
+                            'cart_items': cart_items,
+                            'cart': cart,
+                            'sum': total_price,
+                            'totalqty': totalqty,
+                            'coup_discount' : coup_discount,
+                            'coupon': coupon,
                 }
                 return render(request, 'store/cart.html', context)
             else:
@@ -124,6 +132,89 @@ def delete_cart_item(request,id):
     if 'total' in request.session:
             del request.session['total'] 
     return redirect('cart')
+
+
+@login_required(login_url='signin')
+def checkout(request):
+    user = request.user
+            
+    
+    if user: 
+            cart,_ = Cart.objects.get_or_create(user=user)
+
+
+            cart_item = CartItem.objects.filter(user=user)
+
+            address = Address.objects.filter(user=user)
+
+
+            tot = cart.get_total_price()
+
+
+            if 'total_price' in request.session:
+                    total_price = request.session.get('total_price', None)
+            else: 
+                    total_price = cart.get_total_price()
+
+
+                    #discount in session from apply_coupon    
+            if 'discount_price' in request.session:
+                    coup_discount = request.session['discount_price']
+                
+            else:
+                    coup_discount = 00
+
+
+            context = {
+        'address'   : address,
+        'cart_item' : cart_item,
+        'sum': total_price,
+        'coup_discount':coup_discount,
+        'tot': tot,
+    }
+            
+            
+
+    return render(request, "store/checkout.html", context) 
+
+
+
+def payment(request):
+    print("hh")
+    user = request.user
+    cart = None  # Initialize cart to None
+    cart_items = None  # Initialize cart_items to None
+    sum = None  # Initialize sum to None
+    total = None  # Initialize total to None
+    address = None  # Initialize address to None
+    
+
+    if user: 
+        cart, _ = Cart.objects.get_or_create(user=user)
+        cart_items = CartItem.objects.filter(user=user)
+        total_pro = cart.get_total_products()
+
+        if cart_items:
+            address_id = request.GET.get('addressId')
+            address = Address.objects.get(id=address_id)
+
+        if 'total_price' in request.session:
+                    total_price = request.session.get('total_price', None)
+        else: 
+            total_price = cart.get_total_price()
+               
+            
+
+    context = {
+        'cart_items': cart_items,
+        'cart': cart,
+        'sum': total_price,
+        'total': total,
+        'address': address,
+        'total_pro': total_pro,
+    }
+
+    return render(request, "store/payment.html", context)
 
 
 
@@ -213,92 +304,6 @@ def del_address_user(request, id):
     return redirect('Address_book')
 
 
-@login_required(login_url='signin')
-def checkout(request):
-    user = request.user
-            
-    
-    if user: 
-            cart,_ = Cart.objects.get_or_create(user=user)
-            
-            #sum = cart.get_total_price()
-
-            cart_item = CartItem.objects.filter(user=user)
-
-            address = Address.objects.filter(user=user)
-            print()
-
-            
-
-            offerprice = request.session.get('offerprice', None)
-            total_price = request.session.get('total')
-            if offerprice:
-                    sum = offerprice
-                    print(cart.get_total_price())
-
-            else:
-                    sum = total_price if total_price is not None else cart.get_total_price()
-                   
-
-                
-           
-            context = {
-        'address'   : address,
-        'cart_item' : cart_item,
-        'sum': sum,
-    }
-            
-            
-
-    return render(request, "store/checkout.html", context) 
-
-
-
-def payment(request):
-    print("hh")
-    user = request.user
-    cart = None  # Initialize cart to None
-    cart_items = None  # Initialize cart_items to None
-    sum = None  # Initialize sum to None
-    total = None  # Initialize total to None
-    address = None  # Initialize address to None
-
-    if user: 
-        cart, _ = Cart.objects.get_or_create(user=user)
-        cart_items = CartItem.objects.filter(user=user)
-        print(cart_items)
-
-        if cart_items:
-            address_id = request.GET.get('addressId')
-            address = Address.objects.get(id=address_id)
-            print("kk",address)
-            sum = cart.get_total_price()
-            
-
-            if 'total' in request.session:
-                sum = request.session['total']
-            else:
-                total = cart.get_total_products()
-
-            offerprice = request.session.get('offerprice', None)
-            total_price = request.session.get('total')
-            if offerprice:
-                    sum = offerprice
-            else:
-                    sum = total_price if total_price is not None else cart.get_total_price()
-               
-            
-
-    context = {
-        'cart_items': cart_items,
-        'cart': cart,
-        'sum': sum,
-        'total': total,
-        'address': address,
-    }
-
-    return render(request, "store/payment.html", context)
-
 
 
 
@@ -338,10 +343,13 @@ def apply_coupon(request):
             else:
                 minimum_amount = coupon.minimum_amount
                 discount_price = coupon.discount_price
+                request.session['discount_price'] = discount_price
+
                 if total_price >= minimum_amount:
                     total_price -= discount_price
                     request.session['total_price'] = total_price
-                    request.session['total'] = total_price
+                    
+                    
                     coupon.is_expired = True
                     coupon.save()
                     print(total_price)

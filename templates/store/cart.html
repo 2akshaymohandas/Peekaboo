@@ -95,7 +95,7 @@
 		</td>
 		<td> 
 			<div class="price-wrap"> 
-				<var class="price">$ {{sum}}</var> 
+				<var class="price">$ {{cart_item.get_subtotal}}</var> 
 				{% comment %} <small class="text-muted"> $315.20 each </small>  {% endcomment %}
 			</div> <!-- price-wrap .// -->
 		</td>
@@ -159,7 +159,7 @@
 				<button type="submit" class="btn btn-dark rounded-0 btn-block">Apply Coupon</button> {% endcomment %}
 				<dl class="dlist-align">
 					<dt>Total discount:</dt>
-					<dd class="text-right">$00.00</dd>
+					<dd class="text-right">₹{{coup_discount}}</dd>
 				  </dl>
 				<dl class="dlist-align">
 				  <dt>Total:</dt>

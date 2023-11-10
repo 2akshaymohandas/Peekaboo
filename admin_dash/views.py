@@ -87,7 +87,7 @@ def admin_panel(request):
 
 
 
-
+@login_required(login_url='admin_login')
 def sales_report(request):
     products = Product.objects.all()
     context = {
@@ -97,7 +97,7 @@ def sales_report(request):
 
 
 
-
+@login_required(login_url='admin_login')
 def sales_report_by_product(request, id):
     product = Product.objects.get(pk=id)
     orders = OrderProduct.objects.filter(product=product)
@@ -129,7 +129,7 @@ def sales_report_by_product(request, id):
     
 
 
-
+@login_required(login_url='admin_login')
 def sales_date(request):
     if request.method == 'GET':
         form = DateFilterForm(request.GET)
@@ -153,10 +153,9 @@ def sales_date(request):
 
 
 # admin login page
+
 def admin_login(request):
-    if request.user.is_authenticated:
-        
-        return redirect('admin_panel')
+
 
     if request.method == 'POST':
         email = request.POST['email']
@@ -166,7 +165,7 @@ def admin_login(request):
        
         user = authenticate(email=email,password=password)
         if user is not None and user.is_superuser:
-            print('keri')
+            print(user)
             login(request,user)
             return redirect('admin_panel')
         else:
@@ -178,6 +177,7 @@ def admin_login(request):
 
 
 # admin logout 
+@login_required(login_url='admin_login')
 def admin_logout(request):
     logout(request)
     request.session.flush()
@@ -186,6 +186,7 @@ def admin_logout(request):
 
 
 # admin user management
+@login_required(login_url='admin_login')
 def user(request):
     if request.method=="POST":
         fm = Aforms(request.POST)
@@ -200,6 +201,7 @@ def user(request):
 
 
 # block user 
+@login_required(login_url='admin_login')
 def block_user(request, id):
     if request.method == "POST":
         user = CustomUser.objects.get(pk=id)
@@ -219,6 +221,7 @@ def block_user(request, id):
 
 
 # unblock user 
+@login_required(login_url='admin_login')
 def unblock_user(request, id):
     if request.method == "POST":
         user = CustomUser.objects.get(pk=id)
@@ -236,6 +239,7 @@ def unblock_user(request, id):
 
 
 # admin category management
+@login_required(login_url='admin_login')
 def category(request):
     pro = Category.objects.all()
 
@@ -247,7 +251,7 @@ def category(request):
 
     }
     return render(request, 'admin/category.html', context)
-
+@login_required(login_url='admin_login')
 def category_offer_manage(request,category_name):
     category_obj = Category.objects.get(category_name=category_name)
     category_offer = CategoryOffer.objects.get(offer_category=category_obj)
@@ -263,6 +267,7 @@ def category_offer_manage(request,category_name):
     return render(request, 'test.html', context)
 
 #Add category
+@login_required(login_url='admin_login')
 def add_category(request):
     if request.method == "POST":
         product_form = CategoryForm(request.POST,request.FILES)
@@ -277,6 +282,7 @@ def add_category(request):
 
 
 # edit category
+@login_required(login_url='admin_login')
 def edit_category(request, id):
     product = get_object_or_404(Category, pk=id)
     if request.method == "POST":
@@ -294,6 +300,7 @@ def edit_category(request, id):
 
 
 # delete category
+@login_required(login_url='admin_login')
 def del_category(request, id):
     if request.method == "POST":
         prod = Category.objects.get(pk=id)
@@ -303,7 +310,7 @@ def del_category(request, id):
 
 
 # admin brand management
-
+@login_required(login_url='admin_login')
 def brand(request):
     pro = Brand.objects.all()
     context = {
@@ -312,6 +319,7 @@ def brand(request):
     return render(request, 'admin/brand.html', context)
 
 # add new brand
+@login_required(login_url='admin_login')
 def add_brand(request):
     if request.method == "POST":
         product_form = BrandForm(request.POST,request.FILES)
@@ -325,7 +333,7 @@ def add_brand(request):
     return render(request, 'admin/add_brand.html', context)
 
 # edit brand
-
+@login_required(login_url='admin_login')
 def edit_brand(request, id):
     product = get_object_or_404(Brand, pk=id)
     if request.method == "POST":
@@ -342,7 +350,7 @@ def edit_brand(request, id):
     return render(request, 'admin/brand_edit.html', context)
 
 # delete brand
-
+@login_required(login_url='admin_login')
 def del_brand(request, id):
     if request.method == "POST":
         prod = Brand.objects.get(pk=id)
@@ -351,6 +359,7 @@ def del_brand(request, id):
 
 
 # admin products management   
+@login_required(login_url='admin_login')
 def products(request):
     pro = Product.objects.all()
     context = {
@@ -360,6 +369,7 @@ def products(request):
 
 
 # admin product variant management
+@login_required(login_url='admin_login')
 def product_variant(request):
     pro = ProductVariant.objects.all()
     context = {
@@ -368,7 +378,7 @@ def product_variant(request):
     return render(request, 'admin/product_variant.html', context)
 
 
-
+@login_required(login_url='admin_login')
 def add_product(request):
     if request.method == "POST":
         product_form = ProductForm(request.POST, request.FILES)
@@ -392,6 +402,7 @@ def add_product(request):
 
 
 # Edit product_details
+@login_required(login_url='admin_login')
 def edit_product(request, id):
     product = get_object_or_404(Product, pk=id)
     if request.method == "POST":
@@ -417,6 +428,7 @@ def del_product(request, id):
     
 
 # admin product variant management
+@login_required(login_url='admin_login')
 def product_variant(request):
     pro = ProductVariant.objects.all()
     context = {
@@ -438,6 +450,7 @@ def add_product_variant(request):
 
 
 #Edit product variant 
+@login_required(login_url='admin_login')
 def edit_product_variant(request, id):
     product = get_object_or_404(ProductVariant, pk=id)
     if request.method == "POST":
@@ -455,6 +468,7 @@ def edit_product_variant(request, id):
 
 
 # Delete product varient
+@login_required(login_url='admin_login')
 def del_product_variant(request, id):
     if request.method == "POST":
         prod = ProductVariant.objects.get(pk=id)
@@ -464,6 +478,7 @@ def del_product_variant(request, id):
 
 
 # product size 
+@login_required(login_url='admin_login')
 def size(request):
     pro = Size.objects.all()
     context = {
@@ -472,7 +487,7 @@ def size(request):
     return render(request, 'admin/size.html', context)
 
 
-
+@login_required(login_url='admin_login')
 def add_size(request):
     if request.method == "POST":
         product_form = SizeForm(request.POST,request.FILES)
@@ -487,6 +502,7 @@ def add_size(request):
 
 
 #delete size
+@login_required(login_url='admin_login')
 def del_size(request, id):
     if request.method == "POST":
         prod = Size.objects.get(pk=id)
@@ -505,6 +521,7 @@ def orders(request):
 #         order_search = Order.objects.filter(Q(user__icontains=query))
 
 #     return render(request, "admin/order-search.html", {'order_search':order_search})
+@login_required(login_url='admin_login')
 def search_order(request):
     order_search = None
     if request.method == 'POST':
@@ -516,7 +533,7 @@ def search_order(request):
 
     return render(request, "admin/order-search.html", {'order_search': order_search})
 
-
+@login_required(login_url='admin_login')
 def edit_order(request, id):
     if request.method == "POST":
         status = request.POST.get("status")
@@ -536,6 +553,7 @@ def edit_order(request, id):
     return redirect("orders")
 
 
+@login_required(login_url='admin_login')
 def order_products(request, id):
     orders = Order.objects.get(pk=id)
     myorder = OrderProduct.objects.filter(order=orders)
@@ -549,7 +567,7 @@ def order_products(request, id):
 
 
 
-
+@login_required(login_url='admin_login')
 def coupon_manage(request):
     coupon = Coupon.objects.all()
     context = {
@@ -557,7 +575,7 @@ def coupon_manage(request):
     }
     return render(request,'admin/coupon.html', context)
 
-
+@login_required(login_url='admin_login')
 def add_coupon(request):
     if request.method == 'POST':
         form = CouponForm(request.POST)
@@ -572,7 +590,7 @@ def add_coupon(request):
     return render(request, 'admin/add_coupon.html', context)
 
 
-
+@login_required(login_url='admin_login')
 def del_coupon(request,id):
     if request.method == "POST":
         coup = Coupon.objects.get(id=id)
@@ -580,7 +598,7 @@ def del_coupon(request,id):
     return redirect('coupon_manage')
 
 
-
+@login_required(login_url='admin_login')
 def edit_coupon(request,id):
     if request.method == "POST":
         coup = Coupon.objects.get(id=id)
@@ -599,6 +617,7 @@ def edit_coupon(request,id):
 
 
 #Product Offer
+@login_required(login_url='admin_login')
 def product_offer_manage(request):
 
     offers = Product_offer.objects.all()
@@ -613,7 +632,7 @@ def product_offer_manage(request):
     return render(request,'admin/offer_management.html', context)
 
 
-
+@login_required(login_url='admin_login')
 def add_offer(request):
 
     products = Product.objects.all()
@@ -640,7 +659,7 @@ def add_offer(request):
 
     return render(request,'admin/add_offer.html', context)
 
-
+@login_required(login_url='admin_login')
 def get_offerprice(request):
     offerprice = request.session.get('offerprice')
     if offerprice is not None:
@@ -652,7 +671,7 @@ def get_offerprice(request):
         pass
 
 
-
+@login_required(login_url='admin_login')
 def del_pro_offer(request,id):
     if request.method == "POST":
         p_off = Product_offer.objects.get(id=id)
