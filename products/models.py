@@ -4,7 +4,7 @@ from django.urls import reverse
 from autoslug import AutoSlugField
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
-from image_cropping import ImageRatioFieldcls
+from image_cropping import ImageRatioField
 
 
 
