@@ -16,11 +16,11 @@
 			<header class="card-header">
 				<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
 					<i class="icon-control fa fa-chevron-down"></i>
-					<h6 class="title">Gender</h6>
+					<h6 class="title dark">Gender</h6>
 				</a>
 				
 			</header>
-			<div class="filter-content collapse show" id="collapse_1" style="">
+			<div class="filter-content collapse" id="collapse_1" style="">
 				<div class="card-body">
 					
 					<form action="{% url 'price_sort' %}" method="POST" >
@@ -45,23 +45,23 @@
 			<header class="card-header">
 				<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
 					<i class="icon-control fa fa-chevron-down"></i>
-					<h6 class="title">Price</h6>
+					<h6 class="title dark">Price</h6>
 				</a>
 				
 			</header>
-			<div class="filter-content collapse show" id="collapse_2" style="">
+			<div class="filter-content collapse " id="collapse_2" style="">
 				<div class="card-body">
 					
 					<ul class="list-menu">
 						
 						
 							<label for="min_price">Minimum Price:</label>
-							<input type="number" name="min_price" id="min_price" class="custom-input">
+							<input type="number" name="min_price" id="min_price" class="custom-input rounded-0">
 							
 							<label for="max_price">Maximum Price:</label>
-							<input type="number" name="max_price" id="max_price" class="custom-input">
+							<input type="number" name="max_price" id="max_price" class="custom-input rounded-0">
 							
-							<button type="submit">Submit</button>
+							<button type="submit" class="btn btn-dark rounded-0">Submit</button>
 						</form>
 						
 
@@ -92,7 +92,8 @@
 
 	<header class="border-bottom mb-4 pb-3">
 			<div class="form-inline">
-				<span class="mr-md-auto"><b style="color: black;">{{product_count}}</b> Items found </span>
+				<span class="mr-md-auto"><b style="color: black;">{{product_count}}</b> Items found <br> {%if min_price and max_price%} Products within ₹<b>{{min_price}}</b> to ₹<b>{{max_price}}</b> {%endif%}</span>
+
 			</div>
 
 	</header><!-- sect-heading -->
@@ -111,7 +112,7 @@
 					<div class="fix-height">
 						<a href="{% url 'product_details' product.slug %}" class="title" style="color: black;">{{product.product_name}}</a>
 						<div class="price-wrap mt-2">
-							<span class="price" style="color: black;">${{product.price}}</span>
+							<span class="price" style="color: black;">₹{{product.price}}</span>
 						</div> <!-- price-wrap.// -->
 					</div>
 				</figcaption>

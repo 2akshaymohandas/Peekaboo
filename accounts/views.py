@@ -332,6 +332,7 @@ def forgotPassword(request):
 
         # Store the mobile number in the session
         request.session['mobile_number_forgotPassword'] = mobile_number_forgotPassword
+        print(mobile_number_forgotPassword)
 
         user = CustomUser.objects.filter(phone_number=mobile_number_forgotPassword)
         if user:
@@ -424,6 +425,7 @@ def price_sort(request):
         if min_price and max_price:
             if gender:
                 products = Product.objects.filter(price__gte=min_price, price__lte=max_price, gender=gender)
+
             else:
                 products = Product.objects.filter(price__gte=min_price, price__lte=max_price)
         elif gender:
@@ -432,9 +434,15 @@ def price_sort(request):
             products = Product.objects.all()
 
 
+        product_count = products.count()
 
     # Render a partial template with the filtered products
-    context = {'products': products}
+    context = {'products': products,
+               'product_count': product_count,
+               'min_price': min_price,
+               'max_price': max_price,
+               'gender': gender}
+    
     return render(request, 'store/store.html', context)
 
 

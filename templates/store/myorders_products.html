@@ -34,19 +34,19 @@
 						<th scope="col">Product</th>
 						<th scope="col">Brand</th>
 						<th scope='col'>Quantity</th>
-						{% comment %} <th scope="col">Price</th> {% endcomment %}
+						<th scope="col">Price</th>
 						<th scope="col">Status</th>
 				
 					  </tr>
 					</thead>
 					<tbody>
-						{% for o in myorder %}
+						{% for o in myorder %}myorder_products
 					  <tr>
 						<td><a ><img src="{{MEDIA_URL}}{{o.product.image.url}} " class="img-fluid rounded-start" alt="Image" width="150" height="100"></a></td>
 						<td style="justify-content: center;">{{o.product}}</td>
 						<td style="justify-content: center;">{{o.product.Brand}}</td>
 						<td style="justify-content: center;">{{ o.quantity}}</td>
-						{% comment %} <td style="justify-content: center;">₹{{ o.product_price}}</td> {% endcomment %}
+						<td style="justify-content: center;">₹{{ o.product_price}}</td>
 						
 						<td style="justify-content: center; color: {% if o.order.status == 'New' %}blue{% elif o.order.status == 'Pending' %}orange{% elif o.order.status == 'Shipped' %}brown{% elif o.order.status == 'Delivered' %}green{% elif o.order.status == 'Cancelled' %}red{% elif o.order.status == 'Return' %}red{% endif %}">{{ o.order.status }}</td>
 						
