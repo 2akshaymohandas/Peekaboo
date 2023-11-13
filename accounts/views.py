@@ -266,7 +266,7 @@ def dashboard(request):
     addresses = Address.objects.filter()
    
     
-    wallet = Wallet.objects.get_or_create(user=request.user)
+    wallet = Wallet.objects.get(user=request.user)
    
     if addresses.exists():
         # Select the first address
